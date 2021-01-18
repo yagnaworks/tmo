@@ -27,15 +27,16 @@ export const getReadingListEntities = createSelector(
 
 export interface ReadingListBook extends Book, Omit<ReadingListItem, 'bookId'> {
   isAdded: boolean;
+  isFinished: boolean;
 }
 
 export const getAllBooks = createSelector<
-  BooksPartialState & ReadingListPartialState,
-  Book[],
-  Record<string, ReadingListItem>,
-  ReadingListBook[]
+    BooksPartialState & ReadingListPartialState,
+    Book[],
+    Record<string, ReadingListItem>,
+    ReadingListBook[]
 >(getBooks, getReadingListEntities, (books, entities) => {
-  return books.map(b => ({ ...b, isAdded: Boolean(entities[b.id]) }));
+    return books.map(b => ({ ...b, isAdded: Boolean(entities[b.id]), isFinished: Boolean(entities[b.id]) ? entities[b.id].finished : false }));
 });
 
 export const getReadingList = createSelector(getReadingListState, selectAll);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   addToReadingList,
@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
   templateUrl: './book-search.component.html',
   styleUrls: ['./book-search.component.scss']
 })
-export class BookSearchComponent implements OnInit {
+export class BookSearchComponent implements OnInit, OnDestroy {
   books: ReadingListBook[];
   getBooksSubscription: Subscription;
 
