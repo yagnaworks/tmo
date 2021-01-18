@@ -24,4 +24,29 @@ describe('When: Use the search feature', () => {
 
     // TODO: Implement this test!
   });
+
+  it('Then: I should be able to add and undo add', async () => {
+    await browser.get('/');
+    await browser.wait(
+        ExpectedConditions.textToBePresentInElement($('tmo-root'), 'okreads')
+    );
+
+    // TODO: Implement this test!
+    const form = await $('form');
+    const input = await $('input[type="search"]');
+    await input.sendKeys('united states');
+
+    const btn = await $$('[data-testing="book-item"]').first().$('button');
+
+    await btn.click();
+
+
+    const btnUndo = await $('.cdk-overlay-container').$('.cdk-global-overlay-wrapper').
+        $('.cdk-overlay-pane').$('.mat-snack-bar-container')
+        .$('.mat-simple-snackbar.ng-star-inserted').$('.mat-simple-snackbar-action.ng-star-inserted').
+        $('.mat-focus-indicator.mat-button.mat-button-base');
+    btnUndo.click();
+
+});
+
 });
