@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   addToReadingList,
@@ -19,7 +19,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './book-search.component.html',
   styleUrls: ['./book-search.component.scss']
 })
-export class BookSearchComponent implements OnInit {
+export class BookSearchComponent implements OnInit, OnDestroy, AfterViewInit {
   books: ReadingListBook[];
   getBooksSubscription: Subscription;
   buttonSubscription: Subscription;
