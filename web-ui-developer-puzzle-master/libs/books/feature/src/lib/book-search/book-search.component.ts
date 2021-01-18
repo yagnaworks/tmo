@@ -9,6 +9,7 @@ import {
 } from '@tmo/books/data-access';
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'tmo-book-search',
@@ -17,6 +18,8 @@ import { Book } from '@tmo/shared/models';
 })
 export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
+  getBooksSubscription: Subscription;
+
 
   searchForm = this.fb.group({
     term: ''
@@ -36,6 +39,10 @@ export class BookSearchComponent implements OnInit {
       this.books = books;
     });
   }
+
+  ngOnDestroy() {
+    this.getBooksSubscription.unsubscribe();
+}
 
   formatDate(date: void | string) {
     return date
