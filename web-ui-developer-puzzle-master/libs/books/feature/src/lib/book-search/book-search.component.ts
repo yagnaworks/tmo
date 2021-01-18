@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   addToReadingList,
@@ -10,6 +10,9 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { Book } from '@tmo/shared/models';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { fromEvent, Observable, Subscribable } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 
 @Component({
   selector: 'tmo-book-search',
@@ -19,6 +22,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class BookSearchComponent implements OnInit {
   books: ReadingListBook[];
   getBooksSubscription: Subscription;
+  buttonSubscription: Subscription;
+  @ViewChild('searchterm', { static: true }) button: ElementRef;
 
 
   searchForm = this.fb.group({
@@ -39,6 +44,10 @@ export class BookSearchComponent implements OnInit {
       this.books = books;
     });
   }
+
+  ngAfterViewInit() {
+    this.buttonClick();
+}
 
   ngOnDestroy() {
     this.getBooksSubscription.unsubscribe();
@@ -66,4 +75,10 @@ export class BookSearchComponent implements OnInit {
       this.store.dispatch(clearSearch());
     }
   }
+
+  buttonClick() {
+    this.buttonSubscription = fromEvent(this.button.nativeElement, 'keyup')
+        .pipe(debounceTime(500))
+        .subscribe(res => this.searchBooks());
+}
 }

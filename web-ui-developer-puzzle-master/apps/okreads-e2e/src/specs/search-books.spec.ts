@@ -16,12 +16,21 @@ describe('When: Use the search feature', () => {
     expect(items.length).toBeGreaterThan(1);
   });
 
-  xit('Then: I should see search results as I am typing', async () => {
-    await browser.get('/');
-    await browser.wait(
+    
+it('Then: I should see search results as I am typing', async () => {
+  await browser.get('/');
+  await browser.wait(
       ExpectedConditions.textToBePresentInElement($('tmo-root'), 'okreads')
-    );
+  );
 
-    // TODO: Implement this test!
-  });
+  // TODO: Implement this test!
+  const form = await $('form');
+  const input = await $('input[type="search"]');
+  await input.sendKeys('angular');
+
+  const items = await $$('[data-testing="book-item"]');
+  expect(items.length).toBeGreaterThan(1);
+
+});
+
 });
